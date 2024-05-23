@@ -1,4 +1,9 @@
-name: Benchmark
+# This workflows checks for comments in PRs. If the comments has this format: 
+# /benchmark NAME
+# Then this action will run the benchmark with the given NAME, first agains 
+#  comparing the 
+# results against 
+name: ci
 on:
   issue_comment:
     types: [created]

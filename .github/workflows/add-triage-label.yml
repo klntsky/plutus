@@ -1,7 +1,7 @@
 # Whenever a new issue is opened, this workflow adds the "status: needs triage" 
 # label, unless the issue already has one of the "Internal" labels.
 
-name: Add Triage Label
+name: github
 on:
   issues:
     types:
@@ -10,6 +10,7 @@ on:
 
 jobs:
   add-triage-label:
+    name: 🏷️ Add Needs Triage Label
     runs-on: ubuntu-latest
     permissions:
       issues: write
