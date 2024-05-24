@@ -1,4 +1,4 @@
-name: Nightly Test Suite
+name: ci
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: # or manually dispatch the job
     inputs:
       hedgehog-tests:
-        description: Numer of tests to run (--hedgehog-tests XXXXX)
+        description: argument for --hedgehog-tests
         required: false
         default: "100000"
 
@@ -15,19 +15,20 @@ env:
   HEDGEHOG_TESTS: ${{ github.event.inputs.hedgehog-tests || 100000 }}
 
 jobs:
-  nightly-test-suite:
-    runs-on: [self-hosted, plutus-shared]
+  nightly-testsuite:
+    name: 🌗 Run Nightly Test Suite
+    runs-on: [self-hosted, plutus-benchmark]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
 
-      - name: plutus-core-nightly
+      - name: Run Plutus Core Test
         run: | 
           pushd plutus-core
           nix run --no-warn-dirty --accept-flake-config .#plutus-core-test -- --hedgehog-tests $HEDGEHOG_TESTS
           popd
 
-      - name: plutus-ir-nightly
+      - name: Run Plutus IR Test
         run: |
           pushd plutus-core
           nix run --no-warn-dirty --accept-flake-config .#plutus-ir-test -- --hedgehog-tests $HEDGEHOG_TESTS

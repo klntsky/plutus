@@ -1,8 +1,8 @@
 # A nightly job which downloads script evaluation dumps from S3 and runs a regression test.
-name: Script Evaluation Test
+name: ci
 on:
-  schedule:
-    - cron: 30 3 * * * # 3:30am every day
+  # schedule:
+  # - cron: 30 3 * * * # 3:30am every day
   workflow_dispatch:
 
 concurrency:
@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   script-evaluation-test:
+    name: 🪣 Script Evaluation Test
     runs-on: [self-hosted, default]
 
     steps:

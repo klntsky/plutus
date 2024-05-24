@@ -10,6 +10,7 @@ on:
 
 jobs:
   benchmark:
+    name: 🚀 Manual Benchmark
     runs-on: [self-hosted, plutus-benchmark]
     
     permissions:
@@ -21,13 +22,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           # We need at least one commit before master to compare against
           fetch-depth: 5
 
-      - name: React with Rocket 
-        uses: actions/github-script@v7
+      - name: React With Rocket 
+        uses: actions/github-script@main
         with:
           script: |
             github.rest.reactions.createForIssueComment({
@@ -39,7 +40,7 @@ jobs:
 
       - name: Extract Benchmark Name
         id: extract-benchmark
-        uses: actions/github-script@v7
+        uses: actions/github-script@main
         with:
           script: |
             const regex = /^\/benchmark\s*(.*?)\s*$/;
@@ -50,9 +51,9 @@ jobs:
             else
               core.setFailed(`Unable to extract benchmark name from ${comment}`);
 
-      - name: Extract Comment Branch 
+      - name: Extract Branch From Comment
         id: extract-branch
-        uses: actions/github-script@v7
+        uses: actions/github-script@main
         with:
           script: | 
             async function isPullRequest() {
@@ -95,8 +96,8 @@ jobs:
               core.setFailed(`Error: ${error}`);
             } 
 
-      - name: Publish Link To Action Run
-        uses: actions/github-script@v7
+      - name: Publish Link To Action
+        uses: actions/github-script@main
         with:
           script: | 
             async function getJobUrl() {
@@ -110,7 +111,7 @@ jobs:
               body: `Click [here](${await getJobUrl()}) to check the status of your benchmark.`
             });
 
-      - name: Run
+      - name: Run Benchmark
         run: |
           nix develop --no-warn-dirty --accept-flake-config --command bash ./scripts/ci-plutus-benchmark.sh 
         env:
@@ -120,7 +121,7 @@ jobs:
 
 
       - name: Publish Results
-        uses: actions/github-script@v7
+        uses: actions/github-script@main
         with:
           script: | 
             const fs = require("fs");

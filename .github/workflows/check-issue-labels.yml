@@ -1,0 +1,103 @@
+name: github
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize, labeled, unlabeled ]
+
+jobs:
+  changelog-label:
+    name: 🏷️ Check 'No Changelog Required' Label
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Find Changed Files In changelog.d
+        id: changed-files
+        uses: tj-actions/changed-files@main
+        with:
+          files: '**/changelog.d/**'
+
+      - name: Enforce New Files Or 'No Changelog Required' Label
+        uses: actions/github-script@main
+        # don't require changelogs for draft PRs
+        if: github.event.pull_request.draft == false
+        with:
+          script: | 
+            function shouldCheckChangelog() {
+              return !${{ contains(github.event.pull_request.labels.*.name, 'No Changelog Required') }};
+            }
+
+            function getNewChangelogFiles() {
+              const newFiles = '${{ steps.changed-files.outputs.added_files }}'.trim().split(' ');
+              // We check that added_files is the singleton array containing the empty string.
+              // This is probably a bug in tj-actions/changed-files
+              if (newFiles.length === 1 && newFiles[0] === "") {
+                return [];
+              } else {
+                return newFiles;
+              }
+            }
+
+            function checkChangelog() {
+              const newFiles = getNewChangelogFiles();
+              if (newFiles.length == 0) {
+                core.info("No files were added by this PR in any of the **/changelog.d directories.");
+                core.info("Either commit a new file, or add the label 'No Changelog Required' to your PR.");
+                core.setFailed("Changelog check failed.");
+              } else {
+                core.info(`The following changelog files were added by this PR:\n${newFiles}`);
+              }
+            }
+
+            if (shouldCheckChangelog()) {
+              checkChangelog();
+            } else {
+              core.info("PR contains the label 'No Changelog Required', skipping changelog check.");
+            }
+
+  # Whenever a new issue is opened, this workflow adds the "status: needs triage" 
+  # label, unless the issue already has one of the "Internal" labels.
+  add-needs-triage-label:
+    name: 🏷️ Add 'Needs Triage' Label
+    runs-on: [ubuntu-latest]
+    permissions:
+      issues: write
+    steps:
+      - name: Add Label
+        uses: actions/github-script@main
+        with:
+          script: | 
+            const INTERNAL_LABELS = ["Internal", "status: triaged"];
+
+            async function getIssueLabels() {
+              const { data: labels } = await github.rest.issues.listLabelsOnIssue({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number
+              });
+              return labels.map(label => label.name);
+            }
+
+            async function issueHasInternalLabels() {
+              const labels = await getIssueLabels();
+              return INTERNAL_LABELS.some(item => labels.includes(item));
+            }
+
+            async function addNeedsTriageLabelToIssue() {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ["status: needs triage"]
+              });
+            }
+
+            try {
+              if (!await issueHasInternalLabels()) {
+                await addNeedsTriageLabelToIssue();
+              }
+            } catch (error) {
+              core.setFailed(`Error: ${error}`);
+            } 
+
