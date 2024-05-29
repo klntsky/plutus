@@ -409,8 +409,8 @@ test_TrackCostsRestricting =
     let n = 30000
     in test_TrackCostsWith "restricting" n $ \term ->
         case typecheckReadKnownCek def () term of
-            Left err                         -> fail $ displayPlcDef err
-            Right (Left err)                 -> fail $ displayPlcDef err
+            Left err                         -> fail $ displayPlc err
+            Right (Left err)                 -> fail $ displayPlc err
             Right (Right (res :: [Integer])) -> do
                 let expected = n `div` 10
                     actual = length res
@@ -431,8 +431,8 @@ test_TrackCostsRetaining =
                 let (getRes, budgets) = runCekNoEmit params retaining term'
                 in (getRes >>= readKnownSelf, budgets)
         case typecheckAndRunRetainer () term of
-            Left err                                  -> fail $ displayPlcDef err
-            Right (Left err, _)                       -> fail $ displayPlcDef err
+            Left err                                  -> fail $ displayPlc err
+            Right (Left err, _)                       -> fail $ displayPlc err
             Right (Right (res :: [Integer]), budgets) -> do
                 -- @length budgets@ is for retaining @budgets@ for as long as possible just in case.
                 -- @3@ is just for giving us room to handle erratic GC behavior. It really should be
