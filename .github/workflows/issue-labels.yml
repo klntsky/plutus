@@ -20,7 +20,7 @@ jobs:
 
       - name: Enforce New Files Or 'No Changelog Required' Label
         uses: actions/github-script@main
-        # don't require changelogs for draft PRs
+        # Don't require changelogs for draft PRs
         if: github.event.pull_request.draft == false
         with:
           script: | 

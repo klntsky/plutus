@@ -16,7 +16,7 @@ env:
 
 jobs:
   nightly-testsuite:
-    name: 🌗 Run Nightly Test Suite
+    name: "🌗 Nightly Test Suite"
     runs-on: [self-hosted, plutus-benchmark]
     steps:
       - name: Checkout

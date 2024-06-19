@@ -56,8 +56,9 @@ in
     # Needed for the cabal CLI to download under https
     pkgs.curl
 
-    # Node JS
+    # Node JS & yarm
     pkgs.nodejs_20
+    pkgs.yarn
   ];
 
 

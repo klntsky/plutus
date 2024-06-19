@@ -1,10 +1,27 @@
-name: ci
+# This workflow publishes the Docusaurus site to:
+#   https://intersectmbo.github.io/plutus/docs/site/$version
+# Where $version must be a release version tag.
+# Optionally the target branch can also be deployed to:
+#   https://intersectmbo.github.io/plutus/docs/site/latest  
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
+     inputs:
+       version:
+         description: |
+           The release version tag. For example if $version == "1.29.0.0" then  
+           the current contents of the branch tagged "1.29.0.0" will be deployed to 
+             https://intersectmbo.github.io/plutus/docs/metatheory/$version
+         required: true
+         type: string
+       latest: 
+         description: |
+           If true, then the $version branch will also be deployed to
+             https://intersectmbo.github.io/plutus/docs/metatheory/latest
+           You want to set this to true unless you are deploying old versions.
+         type: boolean
+         required: true 
+         default: true
 
 jobs:
   haddock:

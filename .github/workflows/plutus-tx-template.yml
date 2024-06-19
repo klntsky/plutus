@@ -12,7 +12,7 @@ on:
 
 jobs:
   plutus-tx-template:
-    name: 🏛️ Build Plutus Tx Template
+    name: "🏛️ Build Plutus Tx Template"
     runs-on: [ubuntu-latest]
     steps:
       - name: Checkout Plutus Tx Template
@@ -49,7 +49,6 @@ jobs:
       - name: Build Project With Docker
         run: |
           cd plutus-tx-template 
-          ls -la 
           docker run \
             -v ./.:/workspaces/plutus-tx-template \
             -w /workspaces/plutus-tx-template \

@@ -1,13 +1,16 @@
 # This workflow builds a combined haddock and publishes it to:
-#   https://intersectmbo.github.io/plutus/haddock/master
-#   https://intersectmbo.github.io/plutus/haddock/release/X.X.X.X
-name: "Combined Haddock"
+#   https://intersectmbo.github.io/plutus/docs/haddock/latest
+#   https://intersectmbo.github.io/plutus/docs/haddock/X.X.X.X
+
+name: ci 
+
 on:
   workflow_dispatch:
   push:
     branches:
       - master
       - release/**
+      
 jobs:
   build-and-deploy-combined-haddock:
     runs-on: [self-hosted, plutus-shared]
