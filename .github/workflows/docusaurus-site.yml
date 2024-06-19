@@ -1,5 +1,5 @@
 # This workflow builds and publishes the Docusaurus site to:
-#   https://intersectmbo.github.io/plutus/docs/site
+# https://intersectmbo.github.io/plutus/docs/site
 
 name: ci 
 

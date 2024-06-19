@@ -1,6 +1,7 @@
 # This workflow builds and publishes the Haddock site to:
-#   https://intersectmbo.github.io/plutus/docs/haddock/latest
-#   https://intersectmbo.github.io/plutus/docs/haddock/$version
+# https://intersectmbo.github.io/plutus/docs/haddock/$version
+# And optionally to:
+# https://intersectmbo.github.io/plutus/docs/haddock/latest
 
 name: ci 
 

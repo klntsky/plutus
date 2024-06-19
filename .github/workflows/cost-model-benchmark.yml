@@ -1,3 +1,6 @@
+# This workflow runs the cost model benchmark and uploads the results as a 
+# GitHub artifact.
+
 name: ci
 
 on:

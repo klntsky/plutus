@@ -1,7 +1,7 @@
 # This workflows checks for comments in PRs. If the comment has this format: 
-#   /benchmark NAME
+# /benchmark NAME
 # Then this action will run the benchmark with the given NAME, first agains 
-# comparing the results against the master branch.
+# the current branch and then comparing the results against the master branch.
 
 name: ci
 

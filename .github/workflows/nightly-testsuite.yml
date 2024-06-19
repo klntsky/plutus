@@ -1,10 +1,12 @@
+# This workflow runs the nightly plutus-core-test and plutus-ir-test test suite.
+
 name: ci
 
 on:
   schedule:
-    - cron: 0 0 * * * # daily at midnight
+    - cron: 0 0 * * * # Daily at midnight
 
-  workflow_dispatch: # or manually dispatch the job
+  workflow_dispatch: # Or manually dispatch the job
     inputs:
       hedgehog-tests:
         description: argument for --hedgehog-tests

@@ -5,6 +5,9 @@ on:
     types: [ opened, reopened, synchronize, labeled, unlabeled ]
 
 jobs:
+
+  # This job enforces that: either some changelog.d/** files were added by the 
+  # PR, or the PR has the "No Changelog Required" label.  
   check-changelog-label:
     name: "🏷️ Check Changelog Label"
     runs-on: [ubuntu-latest]
@@ -56,8 +59,8 @@ jobs:
               core.info("PR contains the label 'No Changelog Required', skipping changelog check.");
             }
 
-  # Whenever a new issue is opened, this workflow adds the "status: needs triage" 
-  # label, unless the issue already has one of the "Internal" labels.
+  # Whenever a new issue is opened, this job adds the "status: needs triage" 
+  # label, unless the issue already has one of the INTERNAL_LABELS.
   check-internal-labels:
     name: "🏷️ Check Internal Labels"
     runs-on: [ubuntu-latest]
