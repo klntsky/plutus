@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {- | A type for maps (key-value associations), where the key type can be
  identified by 'Unique's. In practice, these types are usually names.
  This approach is preferred when it is more efficient to compare the associated
@@ -23,7 +24,9 @@ module PlutusCore.Name.UniqueMap (
 import Control.Lens (view)
 import Control.Lens.Getter ((^.))
 import Data.Coerce (Coercible, coerce)
-import Data.Foldable (foldl')
+#if ! MIN_VERSION_base(4,20,0)
+import Data.List (foldl')
+#endif
 import Data.IntMap.Strict qualified as IM
 import PlutusCore.Name.Unique (HasText (..), HasUnique (..), Named (Named), Unique (Unique))
 import PlutusCore.Name.UniqueSet (UniqueSet (UniqueSet))

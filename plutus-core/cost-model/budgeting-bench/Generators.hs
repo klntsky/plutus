@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {- |  Generators for various types of data for benchmarking built-in functions -}
 
 module Generators where
@@ -10,7 +11,9 @@ import Control.Monad
 import Data.Bits
 import Data.ByteString (ByteString)
 import Data.Int (Int64)
+#if !MIN_VERSION_base(4,20,0)
 import Data.List (foldl')
+#endif
 import Data.Text (Text)
 import Data.Word (Word64)
 

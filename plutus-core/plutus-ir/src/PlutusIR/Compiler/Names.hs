@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP               #-}
 {-# LANGUAGE OverloadedStrings #-}
 module PlutusIR.Compiler.Names (safeFreshName, safeFreshTyName) where
 
@@ -5,7 +6,9 @@ import PlutusCore qualified as PLC
 import PlutusCore.Name.Unique (isQuotedIdentifierChar)
 import PlutusCore.Quote
 
+#if !MIN_VERSION_base(4,20,0)
 import Data.List
+#endif
 import Data.Text qualified as T
 
 {- Note [PLC names]

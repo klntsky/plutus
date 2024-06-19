@@ -1,5 +1,6 @@
 -- editorconfig-checker-disable
 {-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE CPP                 #-}
 {-# LANGUAGE GADTs               #-}
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE TypeApplications    #-}
@@ -18,7 +19,11 @@ import UntypedPlutusCore qualified as UPLC
 import Cardano.Crypto.EllipticCurve.BLS12_381 (scalarPeriod)
 import Control.Monad (replicateM)
 import Data.ByteString as BS (empty, length, pack)
-import Data.List as List (foldl', genericReplicate, length, nub)
+import Data.List as List (
+#if !MIN_VERSION_base(4,20,0)
+        foldl', 
+#endif
+        genericReplicate, length, nub)
 import Text.Printf (printf)
 
 import Test.QuickCheck

@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP              #-}
 {-# LANGUAGE GADTs            #-}
 {-# LANGUAGE TypeApplications #-}
 
@@ -22,7 +23,9 @@ import UntypedPlutusCore.Transform.ForceDelay (forceDelay)
 import UntypedPlutusCore.Transform.Inline (InlineHints (..), inline)
 
 import Control.Monad
+#if !MIN_VERSION_base(4,20,0)
 import Data.List
+#endif
 import Data.Typeable
 
 simplifyProgram ::

@@ -1,4 +1,5 @@
 {-# LANGUAGE AllowAmbiguousTypes    #-}
+{-# LANGUAGE CPP                    #-}
 {-# LANGUAGE DefaultSignatures      #-}
 {-# LANGUAGE FlexibleContexts       #-}
 {-# LANGUAGE FlexibleInstances      #-}
@@ -56,7 +57,9 @@ import Algebra.Graph.NonEmpty.AdjacencyMap qualified as NAM
 import Algebra.Graph.ToGraph qualified as Graph
 
 import Data.Bifunctor (first, second)
+#if !MIN_VERSION_base(4,20,0)
 import Data.Foldable
+#endif
 import Data.Map qualified as Map
 import Data.Maybe
 import Data.Set qualified as Set

@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {- | A type for sets of things identified by 'Unique's, usually names.
  This approach is preferred when it is more efficient to compare the associated
  'Unique's instead of the underlying type.
@@ -23,7 +24,9 @@ module PlutusCore.Name.UniqueSet (
 import Control.Lens (Getting, view)
 import Control.Lens.Getter (views)
 import Data.Coerce (Coercible, coerce)
-import Data.Foldable (foldl')
+#if ! MIN_VERSION_base(4,20,0)
+import Data.List (foldl')
+#endif
 import Data.IntSet qualified as IS
 import Data.IntSet.Lens qualified as IS
 import PlutusCore.Name.Unique (HasUnique (..), Unique (Unique))

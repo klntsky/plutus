@@ -12,7 +12,9 @@ module PlutusTx.IsData.TH (
   mkUnsafeConstrPartsMatchPattern,
 ) where
 
+#if !MIN_VERSION_base(4,20,0)
 import Data.Foldable (foldl')
+#endif
 import Data.Functor ((<&>))
 import Data.Traversable (for)
 

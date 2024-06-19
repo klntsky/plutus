@@ -1,4 +1,5 @@
 -- editorconfig-checker-disable-file
+{-# LANGUAGE CPP                 #-}
 {-# LANGUAGE LambdaCase          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections       #-}
@@ -15,7 +16,9 @@ import Algebra.Graph.NonEmpty.AdjacencyMap qualified as AMN
 import Algebra.Graph.ToGraph (isAcyclic)
 import Control.Lens
 import Data.Either
+#if !MIN_VERSION_base(4,20,0)
 import Data.Foldable (foldl')
+#endif
 import Data.List (nub)
 import Data.List.NonEmpty qualified as NE
 import Data.Map qualified as M

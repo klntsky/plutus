@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {- Note [Cancelling interleaved Force-Delay pairs]
 
  The 'ForceDelay' optimisation pushes 'Force' inside its direct 'Apply' subterms,
@@ -139,7 +140,9 @@ import UntypedPlutusCore.Core
 
 import Control.Lens (transformOf)
 import Control.Monad (guard)
+#if !MIN_VERSION_base(4,20,0)
 import Data.Foldable (foldl')
+#endif
 
 {- | Traverses the term, for each node applying the optimisation
  detailed above. For implementation details see 'optimisationProcedure'.

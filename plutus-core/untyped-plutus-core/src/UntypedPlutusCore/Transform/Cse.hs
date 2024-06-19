@@ -1,4 +1,5 @@
 {-# LANGUAGE BlockArguments    #-}
+{-# LANGUAGE CPP               #-}
 {-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications  #-}
@@ -18,7 +19,9 @@ import Control.Monad (join, void)
 import Control.Monad.Trans.Class (MonadTrans (lift))
 import Control.Monad.Trans.Reader (ReaderT (runReaderT), ask, local)
 import Control.Monad.Trans.State.Strict (State, evalState, get, put)
+#if !MIN_VERSION_base(4,20,0)
 import Data.Foldable (Foldable (foldl'))
+#endif
 import Data.Hashable (Hashable)
 import Data.HashMap.Strict (HashMap)
 import Data.HashMap.Strict qualified as Map

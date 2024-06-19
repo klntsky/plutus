@@ -14,9 +14,9 @@ repository cardano-haskell-packages
 -- update either of these.
 index-state:
   -- Bump both the following dates if you need newer packages from Hackage
-  , hackage.haskell.org 2024-01-08T22:38:30Z
+  , hackage.haskell.org 2024-06-19T00:51:44Z
   -- Bump this if you need newer packages from CHaP
-  , cardano-haskell-packages 2024-01-16T11:00:00Z
+  , cardano-haskell-packages 2024-06-18T12:42:43Z
 
 packages: doc/read-the-docs-site
           plutus-benchmark
@@ -82,3 +82,22 @@ allow-newer:
   , inline-r:bytestring
   , inline-r:containers
   , inline-r:primitive
+
+
+-- -------------------------------------------------------------------------------------------------
+-- Following currently required for building with ghc-9.10.
+-- Everything below should be removed before this is merged.
+-- The following git commits are changed often enough that it is not even worth adding
+-- the Nix SHA hashes.
+-- Currently building this with ghc-9.6 and ghc-9.10.
+
+constraints:
+  -- The API has changed for version 2.2, and there is no intention to change to that
+  -- version until after Conway.
+  , cardano-crypto-class ^>= 2.1
+  -- API chnages require this.
+  , nothunks ^>= 0.1.5
+
+allow-newer:
+  , nothunks:containers
+
