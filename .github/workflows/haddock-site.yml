@@ -1,18 +1,32 @@
-# This workflow builds a combined haddock and publishes it to:
+# This workflow builds and publishes the Haddock site to:
 #   https://intersectmbo.github.io/plutus/docs/haddock/latest
-#   https://intersectmbo.github.io/plutus/docs/haddock/X.X.X.X
+#   https://intersectmbo.github.io/plutus/docs/haddock/$version
 
 name: ci 
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-      - release/**
-      
+    inputs:
+      version:
+        description: |
+          The release version tag. For example if $version == "1.29.0.0" then the 
+          current contents of the branch tagged "1.29.0.0" will be deployed to: 
+            https://intersectmbo.github.io/plutus/docs/haddock/$version
+        required: true
+        type: string
+
+      latest: 
+        description: |
+          If true, then the $version branch will also be deployed to:
+            https://intersectmbo.github.io/plutus/docs/haddock/latest
+          You want to leave this to true unless you are deploying old versions.
+        type: boolean
+        required: true 
+        default: true
+  
 jobs:
-  build-and-deploy-combined-haddock:
+  haddock-site:
+    name: "📜 Haddock Site"
     runs-on: [self-hosted, plutus-shared]
     permissions:
       contents: write
@@ -20,17 +34,25 @@ jobs:
       name: github-pages
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build Haddock
-        run: | 
-          nix develop --accept-flake-config --command bash ./scripts/combined-haddock.sh haddock all
-
-      - name: Deploy Haddock
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: actions/checkout@main
         with:
-          # This folder is generated in the step above
-          folder: haddock
-          target-folder: haddock/${{ github.ref_name }}
-          # haddock is ~400MB and keeping the entire history is unnecessary.
+          ref: ${{ inputs.version }}
+
+      - name: Build Site
+        run: | 
+          nix develop --command ./scripts/combined-haddock.sh _haddock all
+
+      - name: Deploy Site
+        uses: JamesIves/github-pages-deploy-action@main
+        with:
+          folder: _haddock
+          target-folder: docs/haddock/${{ inputs.version }}
+          single-commit: true
+ 
+      - name: Deploy Site (latest)
+        if: ${{ inputs.latest == true }}
+        uses: JamesIves/github-pages-deploy-action@main
+        with:
+          folder: _haddock
+          target-folder: docs/haddock/latest
           single-commit: true

@@ -1,10 +1,12 @@
-# Longitudinal Benchmarks 
+# Longitudinal Benchmark
 # 
 # This workflow will run the benchmarks defined in the environment variable BENCHMARKS.
 # It will collect and aggreate the benchmark output, format it and feed it to github-action-benchmark.
 #
 # The benchmark charts are live at https://intersectmbo.github.io/plutus/dev/bench
 # The benchmark data is available at https://intersectmbo.github.io/plutus/dev/bench/data.js
+#
+# This is a performance regression check.
 
 name: ci
 
@@ -21,14 +23,11 @@ permissions:
 
 jobs:
   longitudinal-benchmark:
-    name: "🩺 Performance Regression Check"
+    name: "🩺 Longitudinal Benchmark"
     runs-on: [self-hosted, plutus-benchmark]
     steps:
       - name: Checkout 
         uses: actions/checkout@main 
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
 
       - name: Run Benchmarks
         env: 

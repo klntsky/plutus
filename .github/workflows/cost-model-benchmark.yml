@@ -10,13 +10,13 @@ on:
 
 jobs:
   cost-model-benchmark:
-    name: "🚀 Cost Model Benchmark"
+    name: "💰 Cost Model Benchmark"
     runs-on: [self-hosted, plutus-benchmark]
     steps:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Run Cost Model benchmarks
+      - name: Run Benchmark
         run: nix --accept-flake-config run .#cost-model-budgeting-bench -- --csv results.csv ${{ inputs.entra-bench-args }}
 
       - name: Upload Results

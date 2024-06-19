@@ -12,21 +12,21 @@ on:
 
 jobs:
   plutus-tx-template:
-    name: "🏛️ Build Plutus Tx Template"
+    name: "🏛️ Plutus Tx Template"
     runs-on: [ubuntu-latest]
     steps:
-      - name: Checkout Plutus Tx Template
+      - name: Checkout plutus-tx-template Repo
         uses: actions/checkout@main
         with: 
           repository: IntersectMBO/plutus-tx-template
           path: plutus-tx-template 
 
-      - name: Checkout Plutus
+      - name: Checkout plutus Repo
         uses: actions/checkout@main
         with: 
           path: plutus-tx-template/plutus
   
-      - name: Write cabal.project.local
+      - name: Overwrite cabal.project.local
         uses: DamianReeves/write-file-action@main
         with:
           path: plutus-tx-template/cabal.project.local

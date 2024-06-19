@@ -1,18 +1,18 @@
-# This workflows checks for comments in PRs. If the comments has this format: 
-# /benchmark NAME
+# This workflows checks for comments in PRs. If the comment has this format: 
+#   /benchmark NAME
 # Then this action will run the benchmark with the given NAME, first agains 
-#  comparing the 
-# results against 
+# comparing the results against the master branch.
+
 name: ci
+
 on:
   issue_comment:
     types: [created]
 
 jobs:
-  benchmark:
-    name: 🚀 Manual Benchmark
+  manual-benchmark:
+    name: "🚀 Manual Benchmark"
     runs-on: [self-hosted, plutus-benchmark]
-    
     permissions:
       pull-requests: write
   
@@ -51,7 +51,7 @@ jobs:
             else
               core.setFailed(`Unable to extract benchmark name from ${comment}`);
 
-      - name: Extract Branch From Comment
+      - name: Extract Branch Name
         id: extract-branch
         uses: actions/github-script@main
         with:
@@ -96,7 +96,7 @@ jobs:
               core.setFailed(`Error: ${error}`);
             } 
 
-      - name: Publish Link To Action
+      - name: Publish GH Action Link
         uses: actions/github-script@main
         with:
           script: | 
