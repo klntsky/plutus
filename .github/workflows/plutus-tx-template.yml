@@ -27,7 +27,7 @@ jobs:
           path: plutus-tx-template/plutus
   
       - name: Overwrite cabal.project.local
-        uses: DamianReeves/write-file-action@main
+        uses: DamianReeves/write-file-action@master
         with:
           path: plutus-tx-template/cabal.project.local
           write-mode: overwrite
